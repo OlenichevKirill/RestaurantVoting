@@ -11,19 +11,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "vote",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"},
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"},
                 name = "vote_unique_user_datetime_idx")})
 @Getter
 @Setter
 @NoArgsConstructor
 public class Vote extends AbstractBaseEntity {
 
-    @Column(name = "date_time", nullable = false)
-    private LocalDateTime dateTime;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -33,13 +33,13 @@ public class Vote extends AbstractBaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Vote(Integer id, LocalDateTime dateTime) {
+    public Vote(Integer id, LocalDate dateTime) {
         super(id);
-        this.dateTime = dateTime;
+        this.date = dateTime;
     }
 
     @Override
     public String toString() {
-        return "Vote:" + id + '[' + dateTime + ']';
+        return "Vote:" + id + '[' + date + ']';
     }
 }
