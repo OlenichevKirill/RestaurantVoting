@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.model;
 
+import com.example.restaurantvoting.util.validation.NoHtml;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -38,6 +39,7 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @Email
     @NotBlank
     @Size(max = 64)
+    @NoHtml
     private String email;
 
     @Column(name = "password", nullable = false)

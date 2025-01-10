@@ -21,6 +21,10 @@ public class Restaurant extends AbstractNamedEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     private List<Menu> menus;
 
+    public Restaurant(Restaurant r) {
+        super(r.getId(), r.getName());
+    }
+
     public Restaurant(Integer id, String name) {
         super(id, name);
     }

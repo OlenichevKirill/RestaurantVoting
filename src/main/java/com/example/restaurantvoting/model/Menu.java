@@ -9,6 +9,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import java.util.List;
 public class Menu extends AbstractNamedEntity {
 
     @Column(name = "date_menu", nullable = false)
+    @NotNull
     private LocalDate dateMenu;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +35,11 @@ public class Menu extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade = CascadeType.REMOVE)
     private List<Dish> dishes;
+
+    public Menu(Menu menu) {
+        super(menu.id, menu.name);
+        this.dateMenu = menu.dateMenu;
+    }
 
     public Menu(Integer id, String name, LocalDate dateMenu) {
         super(id, name);

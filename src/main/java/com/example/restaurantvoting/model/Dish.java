@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import lombok.Setter;
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price", nullable = false)
+    @NotNull
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,6 +2,7 @@ package com.example.restaurantvoting.web.restaurant;
 
 import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.service.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class AdminRestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         log.info("Create restaurant {}", restaurant);
         checkNew(restaurant);
         Restaurant restaurantCreated = restaurantService.save(restaurant);
@@ -53,7 +54,7 @@ public class AdminRestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @RequestBody Restaurant restaurant) {
+    public void update(@PathVariable int id, @Valid @RequestBody Restaurant restaurant) {
         log.info("Update restaurant {} with id {}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantService.save(restaurant);
