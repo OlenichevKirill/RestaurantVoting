@@ -24,8 +24,8 @@ public class MenuController {
     private final MenuService menuService;
 
     @GetMapping("/{restaurantId}/menu")
-    public Menu getByRestaurantIdAndLocalDate(@PathVariable int restaurantId, @RequestParam LocalDate localDate) {
-        log.info("Get menu by restaurant id {} and localDate {}", restaurantId, localDate);
-        return menuService.getByRestaurantIdAndLocalDate(restaurantId, localDate);
+    public Menu getByRestaurantIdAndDateMenu(@PathVariable int restaurantId, @RequestParam LocalDate dateMenu) {
+        log.info("Get menu by restaurant id {} and localDate {}", restaurantId, dateMenu);
+        return menuService.getByRestaurantIdAndDateMenu(restaurantId, dateMenu);
     }
 }

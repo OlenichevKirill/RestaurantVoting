@@ -26,30 +26,30 @@ public class VoteService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void saveOrUpdate(int restaurantId, int userId, LocalDate dateTime) {
+    public void saveOrUpdate(int restaurantId, int userId, LocalDate dateMenu) {
         LocalDateTime now = LocalDateTime.now();
         LocalTime endTime = LocalTime.of(11, 0);
-        LocalDateTime timeEndVoting = LocalDateTime.of(dateTime, endTime);
+        LocalDateTime timeEndVoting = LocalDateTime.of(dateMenu, endTime);
         if (now.isBefore(timeEndVoting)) {
-            Vote vote = voteRepository.getByUserIdAndDateTime(userId, dateTime).orElse(null);
+            Vote vote = voteRepository.getByUserIdAndDateMenu(userId, dateMenu).orElse(null);
             if (vote != null) {
-                vote.setDate(dateTime);
+                vote.setDate(dateMenu);
                 Restaurant restaurant = checkNotFound(restaurantRepository.getReferenceById(restaurantId), restaurantId);
                 vote.setRestaurant(restaurant);
                 voteRepository.save(vote);
             } else {
-                Vote voteNew = new Vote(null, dateTime);
+                Vote voteNew = new Vote(null, dateMenu);
                 Restaurant restaurant = checkNotFound(restaurantRepository.getReferenceById(restaurantId), restaurantId);
                 voteNew.setRestaurant(restaurant);
                 voteNew.setUser(userRepository.getReferenceById(userId));
                 voteRepository.save(voteNew);
             }
         } else {
-            throw new VoteException("Voting for the restaurant has ended for the menu on the date:" + dateTime);
+            throw new VoteException("Voting for the restaurant has ended for the menu on the date:" + dateMenu);
         }
     }
 
-    public Integer getRestaurantVoteByAuthUserAndDateTime(int userId, LocalDate dateTime) {
-        return voteRepository.getRestaurantVoteByAuthUserAndDateTime(userId, dateTime).orElse(null);
+    public Integer getRestaurantVoteByAuthUserAndDateMenu(int userId, LocalDate dateMenu) {
+        return voteRepository.getRestaurantVoteByAuthUserAndDateTime(userId, dateMenu).orElse(null);
     }
 }

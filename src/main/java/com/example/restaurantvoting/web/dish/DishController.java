@@ -23,7 +23,7 @@ public class DishController {
     private final DishService dishService;
 
     @GetMapping("/{menuId}/dishes")
-    public List<Dish> getAllByRestaurantId(@PathVariable int menuId) {
+    public List<Dish> getAllByMenuId(@PathVariable int menuId) {
         log.info("Get all dish for menuId {}", menuId);
         return dishService.getAllByMenuId(menuId);
     }

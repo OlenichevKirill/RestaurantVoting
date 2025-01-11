@@ -24,9 +24,9 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping
-    public List<Restaurant> getAllByLocalDate(@RequestParam() LocalDate localDate) {
-        log.info("Get all restaurants by date {}", localDate);
-        return restaurantService.getAllByLocalDate(localDate);
+    public List<Restaurant> getAllByDateMenu(@RequestParam() LocalDate dateMenu) {
+        log.info("Get all restaurants by date {}", dateMenu);
+        return restaurantService.getAllByDateMenu(dateMenu);
     }
 
 

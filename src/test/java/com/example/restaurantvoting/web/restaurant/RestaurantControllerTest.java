@@ -53,9 +53,9 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getAllByLocalDate() throws Exception {
+    void getAllByDateMenu() throws Exception {
         perform(MockMvcRequestBuilders.get(RestaurantController.REST_URL)
-                .param("localDate", "2077-01-01")).
+                .param("dateMenu", "2077-01-01")).
                 andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

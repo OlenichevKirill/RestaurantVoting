@@ -31,7 +31,7 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> getAllByLocalDate(LocalDate localDate) {
-        return restaurantRepository.getAllByLocalDate(localDate);
+    public List<Restaurant> getAllByDateMenu(LocalDate dateMenu) {
+        return restaurantRepository.getAllByDateMenu(dateMenu);
     }
 }

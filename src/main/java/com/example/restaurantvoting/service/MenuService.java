@@ -37,8 +37,8 @@ public class MenuService {
                 "restaurantId=" + restaurantId + ", menuId=" + menuId);
     }
 
-    public Menu getByRestaurantIdAndLocalDate(int restaurantId, LocalDate localDate) {
-        Menu menu = menuRepository.getByRestaurantIdAndLocalDate(restaurantId, localDate).orElse(null);
-        return checkNotFound(menu, "restaurantId=" + restaurantId + ", localDate=" + localDate);
+    public Menu getByRestaurantIdAndDateMenu(int restaurantId, LocalDate dateMenu) {
+        Menu menu = menuRepository.getByRestaurantIdAndDateMenu(restaurantId, dateMenu).orElse(null);
+        return checkNotFound(menu, "restaurantId=" + restaurantId + ", dateMenu=" + dateMenu);
     }
 }

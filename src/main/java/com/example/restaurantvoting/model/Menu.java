@@ -1,5 +1,7 @@
 package com.example.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,9 +33,12 @@ public class Menu extends AbstractNamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @JsonIgnore
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade = CascadeType.REMOVE)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @JsonIgnore
     private List<Dish> dishes;
 
     public Menu(Menu menu) {

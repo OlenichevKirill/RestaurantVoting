@@ -16,6 +16,6 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Query("SELECT m FROM Menu m INNER JOIN m.restaurant r WHERE r.id = :restaurantId AND m.id = :menuId")
     Optional<Menu> getByRestaurantIdAndMenuId(int restaurantId, int menuId);
 
-    @Query("SELECT m FROM Menu m INNER JOIN m.restaurant r WHERE r.id = :restaurantId AND m.dateMenu = :localDate")
-    Optional<Menu> getByRestaurantIdAndLocalDate(int restaurantId, LocalDate localDate);
+    @Query("SELECT m FROM Menu m INNER JOIN m.restaurant r WHERE r.id = :restaurantId AND m.dateMenu = :dateMenu")
+    Optional<Menu> getByRestaurantIdAndDateMenu(int restaurantId, LocalDate dateMenu);
 }

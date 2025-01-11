@@ -1,5 +1,7 @@
 package com.example.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +21,8 @@ import java.util.List;
 public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @JsonIgnore
     private List<Menu> menus;
 
     public Restaurant(Restaurant r) {
@@ -31,7 +35,7 @@ public class Restaurant extends AbstractNamedEntity {
 
     @Override
     public String toString() {
-        return "Menu{" +
+        return "Restaurant{" +
                 "id=" + id +
                 ", name=" + name +
                 '}';

@@ -23,9 +23,9 @@ class MenuControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getByRestaurantIdAndLocalDate() throws Exception {
+    void getByRestaurantIdAndDateMenu() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menu")
-                .param("localDate", MENU_1.getDateMenu().toString()))
+                .param("dateMenu", MENU_1.getDateMenu().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -34,9 +34,9 @@ class MenuControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_MAIL)
-    void getByRestaurantIdAndLocalDateWithUser() throws Exception {
+    void getByRestaurantIdAndDateMenuWithUser() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menu")
-                .param("localDate", MENU_1.getDateMenu().toString()))
+                .param("dateMenu", MENU_1.getDateMenu().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -45,9 +45,9 @@ class MenuControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getByRestaurantIdAndLocalDateNotFoundByDate() throws Exception {
+    void getByRestaurantIdAndLocalDateNotFoundByDateMenu() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menu")
-                .param("localDate", NOT_FOUND_DATE_MENU.toString()))
+                .param("dateMenu", NOT_FOUND_DATE_MENU.toString()))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
