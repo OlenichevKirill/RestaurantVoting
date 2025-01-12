@@ -23,7 +23,7 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @GetMapping("/{restaurantId}/menu")
+    @GetMapping("/{restaurantId}/menus")
     public Menu getByRestaurantIdAndDateMenu(@PathVariable int restaurantId, @RequestParam LocalDate dateMenu) {
         log.info("Get menu by restaurant id {} and localDate {}", restaurantId, dateMenu);
         return menuService.getByRestaurantIdAndDateMenu(restaurantId, dateMenu);

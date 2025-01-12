@@ -24,7 +24,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getByRestaurantIdAndDateMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menu")
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menus")
                 .param("dateMenu", MENU_1.getDateMenu().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -35,7 +35,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getByRestaurantIdAndDateMenuWithUser() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menu")
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menus")
                 .param("dateMenu", MENU_1.getDateMenu().toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -46,7 +46,7 @@ class MenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void getByRestaurantIdAndLocalDateNotFoundByDateMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menu")
+        perform(MockMvcRequestBuilders.get(REST_URL_SLASH + RESTAURANT_1_ID + "/menus")
                 .param("dateMenu", NOT_FOUND_DATE_MENU.toString()))
                 .andDo(print())
                 .andExpect(status().isNotFound());
