@@ -11,28 +11,31 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "dish")
+@Table(name = "menu_item")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Dish extends AbstractNamedEntity {
+public class MenuItem extends AbstractNamedEntity {
 
     @Column(name = "price", nullable = false)
     @NotNull
-    private Double price;
+    private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id", nullable = false)
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Menu menu;
 
-    public Dish(Dish d) {
+    public MenuItem(MenuItem d) {
         this(d.getId(), d.getName(), d.getPrice());
     }
 
-    public Dish(Integer id, String name, Double price) {
+    public MenuItem(Integer id, String name, Integer price) {
         super(id, name);
         this.price = price;
     }

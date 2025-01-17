@@ -40,9 +40,9 @@ public class AdminMenuController {
     }
 
     @GetMapping("/{restaurantId}/menus/{menuId}")
-    public Menu getByRestaurantIdAndMenuId(@PathVariable int restaurantId, @PathVariable int menuId) {
+    public ResponseEntity<Menu> getByRestaurantIdAndMenuId(@PathVariable int restaurantId, @PathVariable int menuId) {
         log.info("Get menu for restaurantId {} and menuId {}", restaurantId, menuId);
-        return menuService.getByRestaurantIdAndMenuId(restaurantId, menuId);
+        return ResponseEntity.of(menuService.getByRestaurantIdAndMenuId(restaurantId, menuId));
     }
 
     @PostMapping(value = "/{restaurantId}/menus", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +52,7 @@ public class AdminMenuController {
         Menu menuCreated = menuService.save(menu, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{restaurantId}/menu/{menuId}")
+                .path(REST_URL + "/{restaurantId}/menus/{menuId}")
                 .buildAndExpand(restaurantId, menuCreated.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(menuCreated);

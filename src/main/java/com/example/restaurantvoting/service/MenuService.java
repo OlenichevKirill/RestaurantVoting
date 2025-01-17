@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.service;
 
 import com.example.restaurantvoting.model.Menu;
-import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.MenuRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -10,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNotFound;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
@@ -27,18 +25,15 @@ public class MenuService {
 
     @Transactional
     public Menu save(Menu menu, int restaurantId) {
-        Restaurant restaurant = checkNotFound(restaurantRepository.getReferenceById(restaurantId), restaurantId);
-        menu.setRestaurant(restaurant);
+        menu.setRestaurant(restaurantRepository.getReferenceById(restaurantId));
         return menuRepository.save(menu);
     }
 
-    public Menu getByRestaurantIdAndMenuId(int restaurantId, int menuId) {
-        return checkNotFound(menuRepository.getByRestaurantIdAndMenuId(restaurantId, menuId).orElse(null),
-                "restaurantId=" + restaurantId + ", menuId=" + menuId);
+    public Optional<Menu> getByRestaurantIdAndMenuId(int restaurantId, int menuId) {
+        return menuRepository.getByRestaurantIdAndMenuId(restaurantId, menuId);
     }
 
-    public Menu getByRestaurantIdAndDateMenu(int restaurantId, LocalDate dateMenu) {
-        Menu menu = menuRepository.getByRestaurantIdAndDateMenu(restaurantId, dateMenu).orElse(null);
-        return checkNotFound(menu, "restaurantId=" + restaurantId + ", dateMenu=" + dateMenu);
+    public Optional<Menu> getByRestaurantIdAndDateMenu(int restaurantId, LocalDate dateMenu) {
+        return menuRepository.getByRestaurantIdAndDateMenu(restaurantId, dateMenu);
     }
 }

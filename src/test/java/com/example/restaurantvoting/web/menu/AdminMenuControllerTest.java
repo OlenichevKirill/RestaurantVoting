@@ -100,7 +100,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newMenu.setId(newId);
         MENU_MATCHER.assertMatch(created, newMenu);
-        MENU_MATCHER.assertMatch(menuService.getByRestaurantIdAndMenuId(RESTAURANT_1_ID, newId), newMenu);
+        MENU_MATCHER.assertMatch(menuService.getByRestaurantIdAndMenuId(RESTAURANT_1_ID, newId).orElse(null), newMenu);
     }
 
     @Test
@@ -112,13 +112,13 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        MENU_MATCHER.assertMatch(menuService.getByRestaurantIdAndMenuId(RESTAURANT_1_ID, MENU_ID_1), updated);
+        MENU_MATCHER.assertMatch(menuService.getByRestaurantIdAndMenuId(RESTAURANT_1_ID, MENU_ID_1).orElse(null), updated);
     }
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createInvalid() throws Exception {
-        Menu invalid = new Menu(null, null, null);
+        Menu invalid = new Menu(null, null);
         perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT_1_ID + "/menus")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
@@ -130,7 +130,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void updateInvalid() throws Exception {
         Menu invalid = new Menu(MENU_1);
-        invalid.setName(null);
+        invalid.setDateMenu(null);
         perform(MockMvcRequestBuilders.put(REST_URL_SLASH + RESTAURANT_1_ID + "/menus/" + MENU_ID_1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(invalid)))
@@ -141,7 +141,7 @@ class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void createDuplicate() throws Exception {
-        Menu newMenu = new Menu(null, "newMenu", LocalDate.of(2077, 1, 1));
+        Menu newMenu = new Menu(null, LocalDate.of(2077, 1, 1));
         perform(MockMvcRequestBuilders.post(REST_URL_SLASH + RESTAURANT_1_ID + "/menus")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newMenu)))

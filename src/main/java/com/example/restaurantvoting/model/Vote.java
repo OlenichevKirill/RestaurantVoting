@@ -11,6 +11,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -25,23 +27,25 @@ public class Vote extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
     @NotNull
-    private LocalDate date;
+    private LocalDate dateVote;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     public Vote(Integer id, LocalDate dateTime) {
         super(id);
-        this.date = dateTime;
+        this.dateVote = dateTime;
     }
 
     @Override
     public String toString() {
-        return "Vote:" + id + '[' + date + ']';
+        return "Vote:" + id + '[' + dateVote + ']';
     }
 }

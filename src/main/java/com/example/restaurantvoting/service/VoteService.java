@@ -33,7 +33,7 @@ public class VoteService {
         if (now.isBefore(timeEndVoting)) {
             Vote vote = voteRepository.getByUserIdAndDateMenu(userId, dateMenu).orElse(null);
             if (vote != null) {
-                vote.setDate(dateMenu);
+                vote.setDateVote(dateMenu);
                 Restaurant restaurant = checkNotFound(restaurantRepository.getReferenceById(restaurantId), restaurantId);
                 vote.setRestaurant(restaurant);
                 voteRepository.save(vote);

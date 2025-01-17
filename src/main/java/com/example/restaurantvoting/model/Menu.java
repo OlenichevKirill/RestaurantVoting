@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,17 +13,19 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date_menu"},
-        name = "menu_unique_restaurant_datemenu_idx")})
+        name = "menu_unique_restaurant_date_menu_idx")})
 @Getter
 @Setter
 @NoArgsConstructor
-public class Menu extends AbstractNamedEntity {
+public class Menu extends AbstractBaseEntity {
 
     @Column(name = "date_menu", nullable = false)
     @NotNull
@@ -33,19 +34,20 @@ public class Menu extends AbstractNamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
     @JsonIgnore
-    private List<Dish> dishes;
+    private List<MenuItem> dishes;
 
     public Menu(Menu menu) {
-        super(menu.id, menu.name);
+        super(menu.id);
         this.dateMenu = menu.dateMenu;
     }
 
-    public Menu(Integer id, String name, LocalDate dateMenu) {
-        super(id, name);
+    public Menu(Integer id, LocalDate dateMenu) {
+        super(id);
         this.dateMenu = dateMenu;
     }
 
@@ -53,7 +55,6 @@ public class Menu extends AbstractNamedEntity {
     public String toString() {
         return "Menu{" +
                 "id=" + id +
-                ", name=" + name +
                 ", dateMenu='" + dateMenu +
                 '}';
     }

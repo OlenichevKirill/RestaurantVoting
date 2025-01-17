@@ -1,7 +1,7 @@
-package com.example.restaurantvoting.web.dish;
+package com.example.restaurantvoting.web.menuItem;
 
-import com.example.restaurantvoting.model.Dish;
-import com.example.restaurantvoting.service.DishService;
+import com.example.restaurantvoting.model.MenuItem;
+import com.example.restaurantvoting.service.MenuItemService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,33 +23,33 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.assure
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminMenuItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Slf4j
-public class AdminDishController {
+public class AdminMenuItemController {
 
     static final String REST_URL = "/api/admin/menus";
 
-    private final DishService dishService;
+    private final MenuItemService menuItemService;
 
-    @PostMapping(value = "/{menuId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@PathVariable int menuId, @Valid @RequestBody Dish dish) {
-        log.info("Create dish: {}", dish);
-        checkNew(dish);
-        Dish dishCreated = dishService.save(dish, menuId);
+    @PostMapping(value = "/{menuId}/menuItems", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MenuItem> create(@PathVariable int menuId, @Valid @RequestBody MenuItem menuItem) {
+        log.info("Create menuItem: {}", menuItem);
+        checkNew(menuItem);
+        MenuItem dishCreated = menuItemService.save(menuItem, menuId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(DishController.REST_URL + "/{menuId}/dish/{dishId}")
+                .path(MenuItemController.REST_URL + "/{menuId}/menuItems/{dishId}")
                 .buildAndExpand(menuId, dishCreated.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(dishCreated);
     }
 
-    @PutMapping(value = "/{menuId}/dishes/{dishId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{menuId}/menuItems/{menuItemsId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int menuId, @PathVariable int dishId, @Valid @RequestBody Dish dish) {
-        log.info("Update dish {} with id {}", menuId, dishId);
-        assureIdConsistent(dish, dishId);
-        dishService.save(dish, menuId);
+    public void update(@PathVariable int menuId, @PathVariable int menuItemsId, @Valid @RequestBody MenuItem menuItem) {
+        log.info("Update menuItem {} with id {}", menuId, menuItemsId);
+        assureIdConsistent(menuItem, menuItemsId);
+        menuItemService.save(menuItem, menuId);
     }
 }

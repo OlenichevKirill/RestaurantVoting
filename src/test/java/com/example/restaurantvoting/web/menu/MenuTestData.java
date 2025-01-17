@@ -19,19 +19,19 @@ public class MenuTestData {
 
     public static final LocalDate NOT_FOUND_DATE_MENU = LocalDate.of(2999, 1, 1);
 
-    public static final Menu MENU_1 = new Menu(MENU_ID_1, "MENU1", LocalDate.of(2077, 1, 1));
-    public static final Menu MENU_2 = new Menu(MENU_ID_2, "MENU2", LocalDate.of(2025, 1, 10));
-    public static final Menu MENU_3 = new Menu(MENU_ID_3, "MENU3", LocalDate.of(2023, 1, 1));
+    public static final Menu MENU_1 = new Menu(MENU_ID_1, LocalDate.of(2077, 1, 1));
+    public static final Menu MENU_2 = new Menu(MENU_ID_2, LocalDate.of(2025, 1, 10));
+    public static final Menu MENU_3 = new Menu(MENU_ID_3, LocalDate.of(2023, 1, 1));
 
-    public static final Menu MENU_4 = new Menu(MENU_ID_4, "MENU4", LocalDate.of(2077, 1, 1));
+    public static final Menu MENU_4 = new Menu(MENU_ID_4, LocalDate.of(2077, 1, 1));
 
     public static final List<Menu> MENUS = List.of(MENU_1, MENU_2, MENU_3);
 
     public static Menu getNew() {
-        return new Menu(null, "NewMenu", LocalDate.of(2025, 2, 10));
+        return new Menu(null, LocalDate.of(2025, 2, 10));
     }
 
     public static Menu getUpdated() {
-        return new Menu(MENU_ID_1, "updatedMenu", LocalDate.of(2077, 1, 1));
+        return new Menu(MENU_ID_1, LocalDate.of(2077, 1, 1));
     }
 }

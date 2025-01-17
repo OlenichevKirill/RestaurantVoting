@@ -71,7 +71,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newRestaurant.setId(newId);
         RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RESTAURANT_MATCHER.assertMatch(restaurantService.get(newId), newRestaurant);
+        RESTAURANT_MATCHER.assertMatch(restaurantService.get(newId).orElse(null), newRestaurant);
     }
 
     @Test
@@ -83,7 +83,7 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_1_ID), updated);
+        RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_1_ID).orElse(null), updated);
     }
 
     @Test
@@ -107,5 +107,16 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void createDuplicateName() throws Exception {
+        Restaurant newRestaurant = new Restaurant(null, RESTAURANT_1.getName());
+        perform(MockMvcRequestBuilders.post(AdminRestaurantController.REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newRestaurant)))
+                .andDo(print())
+                .andExpect(status().isConflict());
     }
 }

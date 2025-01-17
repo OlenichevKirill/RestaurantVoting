@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNotFound;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,8 +25,8 @@ public class RestaurantService {
     }
 
     @Cacheable(value = "restaurants", key = "#id")
-    public Restaurant get(int id) {
-        return checkNotFound(restaurantRepository.findById(id).orElse(null), id);
+    public Optional<Restaurant> get(int id) {
+        return restaurantRepository.findById(id);
     }
 
     @Transactional
