@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,5 +65,12 @@ public class AdminMenuController {
         log.info("Update menu {} with id {}", menu, menuId);
         assureIdConsistent(menu, menuId);
         menuService.save(menu, restaurantId);
+    }
+
+    @DeleteMapping("/{restaurantId}/menus/{menuId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int restaurantId, @PathVariable int menuId) {
+        log.info("Delete menu with id {}", menuId);
+        menuService.delete(restaurantId, menuId);
     }
 }

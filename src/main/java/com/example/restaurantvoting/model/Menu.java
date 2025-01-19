@@ -1,6 +1,7 @@
 package com.example.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,8 +39,8 @@ public class Menu extends AbstractBaseEntity {
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
-    @JsonIgnore
-    private List<MenuItem> dishes;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private List<MenuItem> menuItems;
 
     public Menu(Menu menu) {
         super(menu.id);

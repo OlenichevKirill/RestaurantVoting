@@ -4,6 +4,7 @@ import com.example.restaurantvoting.AbstractControllerTest;
 import com.example.restaurantvoting.model.MenuItem;
 import com.example.restaurantvoting.service.MenuItemService;
 import com.example.restaurantvoting.util.JsonUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,6 +17,7 @@ import static com.example.restaurantvoting.web.menuItem.AdminMenuItemController.
 import static com.example.restaurantvoting.web.menuItem.MenuItemTestData.MENU_ITEM_1;
 import static com.example.restaurantvoting.web.menuItem.MenuItemTestData.MENU_ITEM_1_ID;
 import static com.example.restaurantvoting.web.menuItem.MenuItemTestData.MENU_ITEM_MATCHER;
+import static com.example.restaurantvoting.web.menuItem.MenuItemTestData.NOT_FOUND;
 import static com.example.restaurantvoting.web.menuItem.MenuItemTestData.getNew;
 import static com.example.restaurantvoting.web.menuItem.MenuItemTestData.getUpdated;
 import static com.example.restaurantvoting.web.user.UserTestData.ADMIN_MAIL;
@@ -101,5 +103,22 @@ class AdminMenuItemControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(invalid)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + MENU_ID_1 + "/menuItems/" + MENU_ITEM_1_ID))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        Assertions.assertFalse(menuItemService.getByMenuIdAndMenuItemId(MENU_ID_1, MENU_ITEM_1_ID).isPresent());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + MENU_ID_1 + "/menuItems/" + NOT_FOUND))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

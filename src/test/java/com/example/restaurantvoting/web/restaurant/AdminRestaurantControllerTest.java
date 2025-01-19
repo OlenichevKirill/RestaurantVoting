@@ -4,6 +4,7 @@ import com.example.restaurantvoting.AbstractControllerTest;
 import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.service.RestaurantService;
 import com.example.restaurantvoting.util.JsonUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.example.restaurantvoting.web.restaurant.AdminRestaurantController.REST_URL;
+import static com.example.restaurantvoting.web.restaurant.RestaurantTestData.NOT_FOUND;
 import static com.example.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANTS;
 import static com.example.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_1;
 import static com.example.restaurantvoting.web.restaurant.RestaurantTestData.RESTAURANT_1_ID;
@@ -118,5 +120,22 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newRestaurant)))
                 .andDo(print())
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT_1_ID))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        Assertions.assertFalse(restaurantService.get(RESTAURANT_1_ID).isPresent());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + NOT_FOUND))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

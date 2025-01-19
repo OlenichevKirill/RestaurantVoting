@@ -37,5 +37,6 @@ VALUES (1, 100, 'DISH1'),
        (7, 99, 'DISH9');
 
 INSERT INTO VOTE(date, restaurant_id, user_id)
-VALUES ('2077-01-01', 1, 2)
+VALUES ('2077-01-01', 1, 2),
+       ('2023-01-01', 2, 2)
 

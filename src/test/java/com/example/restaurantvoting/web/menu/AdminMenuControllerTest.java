@@ -5,6 +5,7 @@ import com.example.restaurantvoting.model.Menu;
 import com.example.restaurantvoting.service.MenuService;
 import com.example.restaurantvoting.util.JsonUtil;
 import com.example.restaurantvoting.web.restaurant.RestaurantTestData;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -147,5 +148,22 @@ class AdminMenuControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newMenu)))
                 .andDo(print())
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT_1_ID + "/menus/" + MENU_ID_1))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+        Assertions.assertFalse(menuService.getByRestaurantIdAndMenuId(RESTAURANT_1_ID, MENU_ID_1).isPresent());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL_SLASH + RESTAURANT_1_ID + "/menus/" + MenuTestData.NOT_FOUND))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

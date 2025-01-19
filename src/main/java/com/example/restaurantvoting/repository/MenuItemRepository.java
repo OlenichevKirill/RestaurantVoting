@@ -2,6 +2,7 @@ package com.example.restaurantvoting.repository;
 
 import com.example.restaurantvoting.model.MenuItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,4 +17,9 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
 
     @Query("SELECT mi FROM MenuItem mi INNER JOIN mi.menu m WHERE m.id = :menuId AND mi.id = :menuItemId")
     Optional<MenuItem> getByMenuIdAndMenuItemId(int menuId, int menuItemId);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM MenuItem mi WHERE mi.id=:menuItemsId and mi.menu.id =:menuId")
+    int delete(int menuId, int menuItemsId);
 }
